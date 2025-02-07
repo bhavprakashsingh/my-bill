@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}Add Bill{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Add a New Bill</h2>
+
+    <form method="POST" class="card p-4 shadow">
+        <!-- Date -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Date:</label>
+            <input type="date" class="form-control" name="date" required>
+        </div>
+
+        <!-- Customer Name -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Customer Name:</label>
+            <input type="text" class="form-control" name="customer_name" placeholder="Enter customer name" required>
+        </div>
+
+        <!-- Items Section -->
+        <label class="form-label fw-bold">Items:</label>
+        <div id="items-container">
+            <div class="item-row d-flex gap-2 mb-2">
+                <input type="text" class="form-control" name="item_name[]" placeholder="Item Name" required>
+                <input type="number" class="form-control" step="0.01" name="item_price[]" placeholder="Price" required>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeItem(this)">Remove</button>
+            </div>
+        </div>
+
+        <!-- Add Item Button -->
+        <button type="button" class="btn btn-secondary mt-2" onclick="addItem()">+ Add Item</button>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary w-100 mt-4">Add Bill</button>
+    </form>
+
+    <!-- Navigation Buttons -->
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{{ url_for('add_bill') }}" class="btn btn-success">Add New Bill</a>
+        <div>
+            <a href="{{ url_for('home') }}" class="btn btn-primary">Home</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Item Add/Remove -->
+<script>
+    function addItem() {
+        const container = document.getElementById('items-container');
+        const itemRow = document.createElement('div');
+        itemRow.className = 'item-row d-flex gap-2 mb-2';
+        itemRow.innerHTML = `
+            <input type="text" class="form-control" name="item_name[]" placeholder="Item Name" required>
+            <input type="number" class="form-control" step="0.01" name="item_price[]" placeholder="Price" required>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeItem(this)">Remove</button>
+        `;
+        container.appendChild(itemRow);
+    }
+
+    function removeItem(button) {
+        button.parentElement.remove();
+    }
+</script>
+{% endblock %}
