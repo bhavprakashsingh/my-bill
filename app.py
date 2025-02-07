@@ -176,4 +176,4 @@ def logout():
 
 # Ensure the Flask app runs
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
